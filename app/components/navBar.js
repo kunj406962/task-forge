@@ -29,9 +29,9 @@ export default function NavBar(){
 
     return (
     <>
-        <header className="sticky top-0 z-50 bg-gradient-to-b from-lavender-50 to-lilac-100 border-b-4 border-purple-200">
+        <header className="sticky top-0 z-50 bg-linear-to-b from-lavender-50 to-lilac-100 border-b-4 border-purple-200">
             {/* Wavy divider */}
-            <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300"></div>
+            <div className="absolute bottom-0 left-0 right-0 h-2 bg-linear-to-r from-pink-300 via-purple-300 to-blue-300"></div>
             
             <div className="px-4 py-3 md:px-6 md:py-4">
                 <div className="flex items-center justify-between">
@@ -47,9 +47,9 @@ export default function NavBar(){
                         
                         <div className="flex items-center space-x-3 md:space-x-4">
                             <div className="relative">
-                                <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-lavender-500 to-purple-500 rounded-3xl flex items-center justify-center shadow-lg transform hover:-rotate-6 transition-transform">
+                                <div className="w-12 h-12 md:w-16 md:h-16 bg-linear-to-br from-lavender-500 to-purple-500 rounded-3xl flex items-center justify-center shadow-lg transform hover:-rotate-6 transition-transform">
                                     {/* Lavender background container */}
-                                    <div className="w-10 h-10 md:w-14 md:h-14 bg-gradient-to-br from-lavender-400 to-purple-400 rounded-2xl flex items-center justify-center">
+                                    <div className="w-10 h-10 md:w-14 md:h-14 bg-linear-to-br from-lavender-400 to-purple-400 rounded-2xl flex items-center justify-center">
                                         <Image
                                         src="/TaskForge(full).png"
                                         alt="TaskForge Logo"
@@ -62,7 +62,7 @@ export default function NavBar(){
                             </div>
                             
                             <div>
-                                <h1 className="text-2xl md:text-4xl font-bold text-transparent bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text">
+                                <h1 className="text-2xl md:text-4xl font-bold text-transparent bg-linear-to-r from-purple-600 to-pink-500 bg-clip-text">
                                 TaskForge
                                 </h1>
                                 <p className="text-xs md:text-sm text-purple-400">🎮 Game on! Let's conquer tasks!</p>
@@ -81,7 +81,7 @@ export default function NavBar(){
                     <div className="flex items-center space-x-2 md:space-x-4">
                         {/* NEW: Mobile User Icon */}
                         <div className="md:hidden">
-                            <div className="w-9 h-9 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg">
+                            <div className="w-9 h-9 bg-linearto-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg">
                                 <FaUser className="text-white text-sm" />
                             </div>
                         </div>
@@ -91,7 +91,7 @@ export default function NavBar(){
                             <div className="relative group">
                                 <div className="flex items-center space-x-3 bg-white rounded-2xl px-4 py-2 shadow-lg hover:shadow-2xl transition-all">
                                     <div className="relative">
-                                        <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center">
+                                        <div className="w-12 h-12 bg-linear-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center">
                                             <FaUser className="text-white text-xl" />
                                         </div>
                                         <div className="absolute -top-1 -right-1 w-5 h-5 bg-yellow-400 rounded-full flex items-center justify-center text-xs">
@@ -108,7 +108,7 @@ export default function NavBar(){
                                     
                                     <button 
                                         onClick={logout}
-                                        className="ml-2 p-2 bg-gradient-to-r from-pink-200 to-purple-200 rounded-lg hover:from-pink-300 hover:to-purple-300 transition-all hover:rotate-12"
+                                        className="ml-2 p-2 bg-linear-to-r from-pink-200 to-purple-200 rounded-lg hover:from-pink-300 hover:to-purple-300 transition-all hover:rotate-12"
                                         title="Sign out"
                                     >
                                         <FaSignOutAlt className="text-purple-700" />
@@ -131,13 +131,13 @@ export default function NavBar(){
                 />
                 
                 {/* Mobile Menu Panel */}
-                <div className="fixed top-0 left-0 h-full w-64 bg-gradient-to-b from-purple-100 to-white shadow-2xl z-50 md:hidden animate-slide-in">
+                <div className="fixed top-0 left-0 h-full w-64 bg-linear-to-b from-purple-100 to-white shadow-2xl z-50 md:hidden animate-slide-in">
                     <div className="p-6">
                         {/* Mobile Menu Header */}
                         <div className="flex items-center justify-between mb-8">
                             <div className="flex items-center space-x-3">
-                                <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-2xl flex items-center justify-center">
-                                    <div className="w-10 h-10 bg-gradient-to-br from-lavender-300 to-purple-300 rounded-xl flex items-center justify-center">
+                                <div className="w-12 h-12 bg-linear-to-br from-purple-400 to-pink-400 rounded-2xl flex items-center justify-center">
+                                    <div className="w-10 h-10 bg-linear-to-br from-lavender-300 to-purple-300 rounded-xl flex items-center justify-center">
                                         <Image
                                             src="/TaskForge(full).png"
                                             alt="TaskForge Logo"
@@ -182,7 +182,7 @@ export default function NavBar(){
                         {/* User Info in Mobile Menu */}
                         <div className="mt-auto pt-8 border-t border-purple-200">
                             <div className="flex items-center space-x-3 mb-4">
-                                <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg">
+                                <div className="w-12 h-12 bg-linear-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg">
                                     <FaUser className="text-white text-lg" />
                                 </div>
                                 <div>
@@ -200,7 +200,7 @@ export default function NavBar(){
                                     logout();
                                     setIsMenuOpen(false);
                                 }}
-                                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-gradient-to-r from-pink-400 to-purple-400 text-white rounded-xl hover:shadow-xl transition-all"
+                                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-linear-to-r from-pink-400 to-purple-400 text-white rounded-xl hover:shadow-xl transition-all"
                             >
                                 <FaSignOutAlt /> 
                                 <span className="font-medium">Sign Out</span>
@@ -222,8 +222,8 @@ function PlayfulLink({ icon, text, href, isActive }) {
                 <div className={`
                 flex items-center space-x-2 px-5 py-2.5 rounded-full transition-all duration-300
                 ${isActive 
-                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg scale-105' 
-                    : 'bg-white/90 text-purple-700 hover:bg-gradient-to-r from-purple-400 to-pink-400 hover:text-white'
+                    ? 'bg-linear-to-r from-purple-500 to-pink-500 text-white shadow-lg scale-105' 
+                    : 'bg-white/90 text-purple-700 hover:bg-linear-to-r from-purple-400 to-pink-400 hover:text-white'
                 }
                 `}>
                 <div>{icon}</div>
@@ -249,8 +249,8 @@ function MobileNavLink({ icon, text, href, isActive }) {
             <div className={`
                 flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200
                 ${isActive 
-                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
-                    : 'bg-white/50 text-purple-700 hover:bg-gradient-to-r from-purple-400 to-pink-400 hover:text-white'
+                    ? 'bg-linear-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
+                    : 'bg-white/50 text-purple-700 hover:bg-linear-to-r from-purple-400 to-pink-400 hover:text-white'
                 }
             `}>
                 <div className={`text-xl ${isActive ? 'scale-110' : ''} transition-transform`}>
