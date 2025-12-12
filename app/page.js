@@ -3,12 +3,20 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useUserAuth } from "./_utils/auth-context";
 import SignInCard from "./components/signIn-Card";
+import { useEffect } from "react";
 
 export default function Page() {
   
   const {user, gitHubSignIn, googleSignIn} = useUserAuth();
 
   const router= useRouter();
+  useEffect(()=>{
+    if (user) {
+      router.push("/home");
+    }
+  },[])
+
+  
 
   const handleGoogleSignIn=async()=>{
     try{
