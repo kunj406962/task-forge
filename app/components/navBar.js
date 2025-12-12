@@ -78,14 +78,7 @@ export default function NavBar(){
                     </div>
 
                     {/* User with Fun Elements */}
-                    <div className="flex items-center space-x-2 md:space-x-4">
-                        {/* NEW: Mobile User Icon */}
-                        <div className="md:hidden">
-                            <div className="w-9 h-9 bg-linearto-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center shadow-lg">
-                                <FaUser className="text-white text-sm" />
-                            </div>
-                        </div>
-                        
+                    <div className="flex items-center space-x-2 md:space-x-4">                        
                         {/* Desktop User Section */}
                         <div className="hidden md:flex items-center space-x-4">
                             <div className="relative group">

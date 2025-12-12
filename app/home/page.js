@@ -1,22 +1,35 @@
 "use client";
-import Image from "next/image";
+import { useState, useEffect } from "react";
+import { getToDos, addTodo, deleteTodo, updateTodo } from "../_services/to-dos-service";
 import { useUserAuth } from "../_utils/auth-context";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { FaHome, FaCalendarAlt, FaTasks, FaUser, FaSignOutAlt } from 'react-icons/fa';
-import NavBar from "../components/navBar";
 
 export default function Page(){
-    const{user, firebaseSignOut }=useUserAuth();  
+    const {user}= useUserAuth();
+    const [data, setData] = useState(null);
+    useEffect(()=>{
+        if (!user) return;
+        fetchData();
+    },[user])
     
-    const router=useRouter();
+    const fetchData=async ()=>{
+        const todos= await getToDos(user.uid);
+        setData(todos);
+        console.log("error here");
+    }
 
-    const logout=async()=>{
-        await firebaseSignOut();
-        router.push("/");
+    const handleAdd= async (todoData)=>{
+        await addTodo (user.uid, {
+            title: 'Buy groceries',
+            priority: 'important',
+            category: 'shopping',
+            completed: false,
+            description: "30 minute run in the park",
+            dueDate: "2024-01-15"
+        });
+        await fetchData();
     }
 
     return (
-        <h1>This is the home page</h1>
+        <button onClick={handleAdd}>Add To-Do</button>
     )
 }
