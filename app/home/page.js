@@ -24,7 +24,7 @@ export default function Page(){
             category: 'shopping',
             completed: false,
             description: "30 minute run in the park",
-            dueDate: "2024-01-15",
+            dueDate: "2025-12-12",
             dueTime: "10:00"
         });
         await fetchData();
