@@ -13,7 +13,7 @@ export default function Page() {
   const handleGoogleSignIn=async()=>{
     try{
       await googleSignIn();
-      router.push("/protected");
+      router.push("/home");
     }
     catch(error){
       console.error("Error during sign in:", error);
@@ -23,7 +23,7 @@ export default function Page() {
   const handleGitHubSignIn=async()=>{
     try{
       await gitHubSignIn();
-      router.push("/protected");
+      router.push("/home");
     }
     catch(error){
       console.error("Error during sign in:", error);
@@ -46,7 +46,7 @@ export default function Page() {
         <h1 className="pb-1 text-6xl font-bold bg-linear-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
           TaskForge
         </h1>
-        <p className="text-purple-600 mt-4 text-xl">Build. Organize. Achieve.</p>
+        <p className="text-purple-600 mt-4 text-xl">🎮 Game on! Let's conquer tasks!</p>
       </div>
 
       <SignInCard handleGitHubSignIn={handleGitHubSignIn} handleGoogleSignIn={handleGoogleSignIn}/>

@@ -1,6 +1,10 @@
 "use client";
+import Image from "next/image";
 import { useUserAuth } from "../_utils/auth-context";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { FaHome, FaCalendarAlt, FaTasks, FaUser, FaSignOutAlt } from 'react-icons/fa';
+import NavBar from "../components/navBar";
 
 export default function Page(){
     const{user, firebaseSignOut }=useUserAuth();  
@@ -12,14 +16,7 @@ export default function Page(){
         router.push("/");
     }
 
-    return(
-        !user ? (
-            <h1>You have to sign in to access this page</h1>
-        ) : (
-            <div>
-                <h1>Welcome {user.displayName}</h1>
-                <button onClick={logout}>Sign Out</button>
-            </div>
-        )
-    );
+    return (
+        <h1>This is the home page</h1>
+    )
 }
