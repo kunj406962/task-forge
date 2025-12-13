@@ -3,14 +3,15 @@ import { useState, useEffect } from "react";
 import { getToDos, addTodo, deleteTodo, updateTodo } from "../_services/to-dos-service";
 import { useUserAuth } from "../_utils/auth-context";
 import WeatherWidget from "./components/weather";
+import SnarkyAdviceWidget from "./components/snarky-advice";
 
 export default function Page(){
     const {user}= useUserAuth();
     const [data, setData] = useState(null);
-    const [weather, setWeather]= useState(null);
     useEffect(()=>{
         if (!user) return;
         fetchData();
+        fetchAdvice();
     },[user])
     
 
@@ -19,10 +20,20 @@ export default function Page(){
         setData(todos);
         console.log("Fetched to-dos: ", todos);
     }
-    
+
+    const fetchAdvice= async ()=>{
+        try{
+            const response= await fetch ("https://api.adviceslip.com/advice").then(res=> res.json());
+            console.log("Fetched advice: ", response);
+        }catch (error){
+            console.error("Advice fetch failed:", error);
+        }
+    }
+
     return (
-        <div className="mx-5">
-           <WeatherWidget user={user} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 m-2">
+            <WeatherWidget user={user} />
+            <SnarkyAdviceWidget />
         </div>
     )
 }

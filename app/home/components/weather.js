@@ -64,7 +64,7 @@ const WeatherWidget = ({ user }) => {
     };
 
     return (
-        <div className="bg-linear-to-br from-purple-50 to-pink-50 rounded-2xl p-4 border-2 border-purple-200 shadow-lg hover:shadow-xl transition-shadow duration-300 max-w-sm">
+        <div className="bg-linear-to-br from-purple-50 to-pink-50 rounded-2xl p-4 border-2 border-purple-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
             {/* Fun header with emoji */}
             <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center space-x-2">
