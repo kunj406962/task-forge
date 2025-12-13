@@ -1,5 +1,5 @@
 import { db } from "../_utils/firebase";
-import { collection, getDocs, addDoc, query, updateDoc, deleteDoc, serverTimestamp } from "firebase/firestore";
+import { doc, collection, getDocs, addDoc, query, updateDoc, deleteDoc, serverTimestamp } from "firebase/firestore";
 
 export const getToDos = async (userId) => {
     try{
