@@ -21,7 +21,7 @@ export default function Page(){
     }
     
     return (
-        <div>
+        <div className="mx-5">
            <WeatherWidget user={user} />
         </div>
     )

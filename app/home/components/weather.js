@@ -4,7 +4,7 @@ import { WiDaySunny, WiCloudy, WiRain, WiSnow, WiDayHaze } from 'react-icons/wi'
 import { FaCloudSun, FaCloudMoonRain, FaTemperatureHigh, FaTemperatureLow } from 'react-icons/fa';
 
 const WEATHER_API={
-    key: process.env.NEXT_PUBLIC_WEATER_API_KEY,
+    key: process.env.NEXT_PUBLIC_WEATHER_API_KEY,
     base: "https://api.openweathermap.org/data/2.5/"
 }
 
