@@ -136,7 +136,7 @@ try {
           </div>
 
           {/* Row: Date & Time */}
-          <div className="flex gap-4 mb-4">
+          <div className="flex flex-col md:flex-row gap-4 mb-4">
             <div className="flex-1">
               <label className="block mb-1 text-sm text-gray-400">Due Date</label>
               <input 

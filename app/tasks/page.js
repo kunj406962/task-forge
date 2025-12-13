@@ -128,7 +128,7 @@ const handleDelete = async (e, id) => {
         </button>
 
         {/* Sort Buttons */}
-        <div className="filter-container" style={{ display: 'flex', gap: '15px', justifyContent: 'center', margin: '15px 0', alignItems: 'center' }}>
+        <div className="filter-container flex-col md:flex-row" style={{ display: 'flex', gap: '15px', justifyContent: 'center', margin: '15px 0', alignItems: 'center' }}>
           <span style={{color: '#aaa', fontSize: '0.9rem'}}>Sort By:</span>
           
           <button 
