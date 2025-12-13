@@ -29,7 +29,7 @@ export default function NavBar(){
 
     return (
     <>
-        <header className="sticky top-0 z-50 bg-linear-to-b from-lavender-50 to-lilac-100 border-b-4 border-purple-200">
+        <header className="sticky top-0 z-50 bg-linear-to-b from-lavender-50 to-lilac-100 border-b-4 border-purple-200 mb-5">
             {/* Wavy divider */}
             <div className="absolute bottom-0 left-0 right-0 h-2 bg-linear-to-r from-pink-300 via-purple-300 to-blue-300"></div>
             
