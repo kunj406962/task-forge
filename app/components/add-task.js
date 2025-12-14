@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState } from 'react';
-import { db, auth } from '../_utils/firebase'; 
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import React, { useState, useEffect } from 'react';
+import { auth } from '../_utils/firebase'; 
 import { addTodo } from '../_services/to-dos-service';
 
 const AddTaskModal = ({ isOpen, onClose, addDate }) => {
@@ -13,10 +12,17 @@ const AddTaskModal = ({ isOpen, onClose, addDate }) => {
     title: '',
     priority: 'normal',
     category: 'personal',
-    dueDate: '',
+    dueDate: '', 
     dueTime: '',
     description: ''
   });
+
+  // Uses today or selected dat but remains editable
+  useEffect(() => {
+    if (isOpen && addDate) {
+      setFormData(prev => ({ ...prev, dueDate: addDate }));
+    }
+  }, [isOpen, addDate]);
 
   if (!isOpen) return null;
 
@@ -40,7 +46,7 @@ const AddTaskModal = ({ isOpen, onClose, addDate }) => {
         title: formData.title,
         priority: formData.priority,
         category: formData.category,
-        dueDate: addDate,
+        dueDate: formData.dueDate,
         dueTime: formData.dueTime,
         description: formData.description,
         completed: false,
@@ -50,7 +56,7 @@ const AddTaskModal = ({ isOpen, onClose, addDate }) => {
         title: '',
         priority: 'normal',
         category: 'personal',
-        dueDate: addDate,
+        dueDate: addDate, 
         dueTime: '',
         description: ''
       });
@@ -101,13 +107,13 @@ const AddTaskModal = ({ isOpen, onClose, addDate }) => {
             />
           </div>
 
-          {/* Row: Priority & Category */}
+          {/* Priority & Category */}
           <div className="flex gap-4 mb-4">
             <div className="flex-1">
               <label className="block mb-1 text-sm text-gray-400">Priority</label>
               <select 
                 name="priority" 
-                value={formData.priority||"normal"} 
+                value={formData.priority || "normal"} 
                 onChange={handleChange}
                 className="w-full p-2.5 bg-[#222] border border-[#444] rounded-md text-white focus:outline-none focus:border-[#d946ef]"
               >
@@ -123,7 +129,7 @@ const AddTaskModal = ({ isOpen, onClose, addDate }) => {
               <label className="block mb-1 text-sm text-gray-400">Category</label>
               <select 
                 name="category" 
-                value={formData.category||"personal"} 
+                value={formData.category || "personal"} 
                 onChange={handleChange}
                 className="w-full p-2.5 bg-[#222] border border-[#444] rounded-md text-white focus:outline-none focus:border-[#d946ef]"
               >
@@ -136,11 +142,17 @@ const AddTaskModal = ({ isOpen, onClose, addDate }) => {
             </div>
           </div>
 
-          {/* Row: Date & Time */}
+          {/* Date & Time */}
           <div className="flex flex-col md:flex-row gap-4 mb-4">
             <div className="flex-1">
               <label className="block mb-1 text-sm text-gray-400">Due Date</label>
-              <p className="w-full p-2.5 bg-[#222] border border-[#444] rounded-md text-white">{addDate}</p>
+              <input 
+                type="date" 
+                name="dueDate" 
+                value={formData.dueDate} 
+                onChange={handleChange} 
+                className="w-full p-2.5 bg-[#222] border border-[#444] rounded-md text-white focus:outline-none focus:border-[#d946ef]"
+              />
             </div>
             <div className="flex-1">
               <label className="block mb-1 text-sm text-gray-400">Time</label>

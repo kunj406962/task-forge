@@ -9,6 +9,7 @@ const TaskList = ({ tasks, onToggleComplete, onDelete, onSelect, sortBy }) => {
     const priority = p ? p.toLowerCase() : '';
     if (priority === 'urgent') return '#ef4444'; 
     if (priority === 'important') return '#ffff00'; 
+    if (priority === 'normal') return '#3b82f6';
     if (priority === 'someday') return '#10b981'; 
     if (priority === 'icebox') return '#97C1E6'; 
     return '#ccc';

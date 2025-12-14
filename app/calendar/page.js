@@ -3,13 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import { format } from 'date-fns';
-import './calendar.css'; //Default calendar comes in white, CSS is used to adapt it to dark mode
+import './calendar.css'; //Default calendar comes in white, CSS is used to adapt it with the black bg
 import { db, auth } from '../_utils/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import AddTaskModal from '../components/add-task';
 import TaskDetailsModal from '../components/task-details';
 import { updateTodo, deleteTodo, getTodosDueOnDate } from '../_services/to-dos-service';
 import TaskList from '../components/task-list';
+
 const CalendarPage = () => {
   const [date, setDate] = useState(new Date()); 
   const [selectedTask, setSelectedTask] = useState(null);
@@ -68,12 +69,20 @@ const toggleComplete = async (e, task) => {
     setLoading(false);
   }, [date, user, isModalOpen]);
 
-  const tasksForChosenDay= async ()=>{
-    await getTodosDueOnDate(user.uid, dateStr).then((todos)=>{
-      setTasks(todos)
-    })
-  }
-  
+const tasksForChosenDay = async () => {
+    await getTodosDueOnDate(user.uid, dateStr).then((todos) => {
+      
+      // Sort tasks by time
+      const sortedTodos = todos.sort((a, b) => {
+        const timeA = a.dueTime || '23:59';
+        const timeB = b.dueTime || '23:59';
+        return timeA.localeCompare(timeB);
+      });
+
+      setTasks(sortedTodos);
+    });
+  };
+
   // Delete from Databsase
 const handleDelete = async (e, id) => {
     e.stopPropagation();
@@ -87,15 +96,6 @@ const handleDelete = async (e, id) => {
       console.error("Error deleting quest:", error);
       alert("Failed to delete.");
     }
-  };
-
-  const getPriorityColor = (p) => {
-    const priority = p ? p.toLowerCase() : '';
-    if (priority === 'urgent') return '#ef4444'; 
-    if (priority === 'important') return '#ffff00'; 
-    if (priority === 'someday') return '#10b981'; 
-    if (priority === 'icebox') return '#97C1E6'; 
-    return '#ccc';
   };
 
   return (
