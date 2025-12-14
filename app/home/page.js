@@ -6,51 +6,92 @@ import WeatherWidget from "../components/weather";
 import SnarkyAdviceWidget from "../components/snarky-advice";
 import TaskStatusWidget from "../components/Task-Status";
 
-export default function Page(){
-    const {user}= useUserAuth();
+export default function Page() {
+    const { user } = useUserAuth();
     const [data, setData] = useState(null);
-    const today= new Date();
-    const year = today.getFullYear();
-    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
-    const day = today.getDate().toString().padStart(2, '0');
-    const todayStr = `${year}-${month}-${day}`;
-    useEffect(()=>{
+    const [overdueTasksCount, setOverdueTasksCount] = useState(0);
+    
+    // Fetch data once when page loads
+    useEffect(() => {
         if (!user) return;
         fetchData();
-    },[user])
-    
+    }, [user]);
 
-    const fetchData=async ()=>{
+    // Check overdue every minute using the existing data
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            if (data) {
+                checkOverdueTasks(data);
+            }
+        }, 60000); // Every minute
+        
+        // Check immediately on mount
+        if (data) {
+            checkOverdueTasks(data);
+        }
+        
+        return () => clearInterval(intervalId);
+    }, [data]); // Run when data changes
 
-        const todos= await getTodosDueOnDate(user.uid, todayStr);
-        setData(todos);
-        console.log("Fetched to-dos: ", todos);
-    }
-
-    const totalTasksCount= data ? data.length : 0;
-    const completedTasksCount= data ? data.filter(task=> task.completed).length : 0;
-
-    const checkOverdueTasks=()=>{
-        if(!data) return 0;
-        const now= new Date();
-        const time= `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
-        const overdueTasks= data.filter(task=>{
-            if(task.dueTime < time) return true;
+    const checkOverdueTasks = (taskList) => {
+        if (!taskList || taskList.length === 0) {
+            setOverdueTasksCount(0);
+            return;
+        }
+        
+        const now = new Date();
+        const currentDateStr = now.toISOString().split('T')[0]; // YYYY-MM-DD
+        const currentTimeStr = now.toTimeString().slice(0, 5); // HH:MM
+        
+        const overdueTasks = taskList.filter(task => {
+            // If task is already completed, it's not overdue
+            if (task.completed) return false;
+            
+            // Compare dates first
+            if (task.dueDate < currentDateStr) return true;
+            
+            // If same date, compare times
+            if (task.dueDate === currentDateStr && task.dueTime < currentTimeStr) return true;
+            
             return false;
         });
-        return overdueTasks;
-    }
+        
+        console.log("Checked overdue at:", currentTimeStr, "Found:", overdueTasks.length);
+        setOverdueTasksCount(overdueTasks.length);
+    };
 
-    const overdueTasksCount= checkOverdueTasks().length;
-    
+    const fetchData = async () => {
+        try {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = (today.getMonth() + 1).toString().padStart(2, '0');
+            const day = today.getDate().toString().padStart(2, '0');
+            const todayStr = `${year}-${month}-${day}`;
+            
+            const todos = await getTodosDueOnDate(user.uid, todayStr);
+            setData(todos);
+            console.log("Initial fetch:", todos);
+        } catch (error) {
+            console.error("Error fetching todos:", error);
+            setData([]);
+        }
+    };
+
+    const totalTasksCount = data ? data.length : 0;
+    const completedTasksCount = data ? data.filter(task => task.completed).length : 0;
 
     return (
-        <div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 m-2">
+        <div className="p-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <WeatherWidget user={user} />
                 <SnarkyAdviceWidget />
             </div>
-            <TaskStatusWidget totalTasks={totalTasksCount} completedTasks={completedTasksCount} overdueTasks={overdueTasksCount}  />
+            
+            <TaskStatusWidget 
+                totalTasks={totalTasksCount} 
+                completedTasks={completedTasksCount} 
+                overdueTasks={overdueTasksCount} 
+            />
         </div>
-    )
+    );
 }
