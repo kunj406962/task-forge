@@ -80,11 +80,11 @@ const TaskStatusWidget = ({
     };
     
     return (
-        <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-5 border-2 border-purple-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <div className="bg-linear-to-br from-purple-50 to-pink-50 rounded-2xl p-5 border-2 border-purple-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-400 rounded-xl flex items-center justify-center">
+                    <div className="w-10 h-10 bg-linear-to-br from-purple-400 to-pink-400 rounded-xl flex items-center justify-center">
                         <FaFire className="text-white text-lg" />
                     </div>
                     <div>
@@ -103,7 +103,7 @@ const TaskStatusWidget = ({
                 </div>
                 <div className="h-3 bg-purple-200 rounded-full overflow-hidden">
                     <div 
-                        className={`h-full bg-gradient-to-r ${getProgressColor()} transition-all duration-500`}
+                        className={`h-full bg-linear-to-r ${getProgressColor()} transition-all duration-500`}
                         style={{ 
                             width: `${totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0}%` 
                         }}
@@ -115,7 +115,7 @@ const TaskStatusWidget = ({
             <div className="grid grid-cols-3 gap-3 mb-5">
                 <div className="bg-white/60 rounded-xl p-3 text-center border border-purple-100">
                     <div className="flex justify-center mb-2">
-                        <div className="w-8 h-8 bg-gradient-to-br from-purple-300 to-pink-300 rounded-full flex items-center justify-center">
+                        <div className="w-8 h-8 bg-linear-to-br from-purple-300 to-pink-300 rounded-full flex items-center justify-center">
                             <FaCheckCircle className="text-white text-sm" />
                         </div>
                     </div>
@@ -125,7 +125,7 @@ const TaskStatusWidget = ({
                 
                 <div className="bg-white/60 rounded-xl p-3 text-center border border-purple-100">
                     <div className="flex justify-center mb-2">
-                        <div className="w-8 h-8 bg-gradient-to-br from-blue-300 to-cyan-300 rounded-full flex items-center justify-center">
+                        <div className="w-8 h-8 bg-linear-to-br from-blue-300 to-cyan-300 rounded-full flex items-center justify-center">
                             <FaClock className="text-white text-sm" />
                         </div>
                     </div>
@@ -135,7 +135,7 @@ const TaskStatusWidget = ({
                 
                 <div className="bg-white/60 rounded-xl p-3 text-center border border-purple-100">
                     <div className="flex justify-center mb-2">
-                        <div className="w-8 h-8 bg-gradient-to-br from-orange-300 to-red-300 rounded-full flex items-center justify-center">
+                        <div className="w-8 h-8 bg-linear-to-br from-orange-300 to-red-300 rounded-full flex items-center justify-center">
                             <FaExclamationTriangle className="text-white text-sm" />
                         </div>
                     </div>
