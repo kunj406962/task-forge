@@ -17,7 +17,7 @@ const AddTaskModal = ({ isOpen, onClose, addDate }) => {
     description: ''
   });
 
-  // Uses today or selected dat but remains editable
+  // Uses today or selected date but remains editable
   useEffect(() => {
     if (isOpen && addDate) {
       setFormData(prev => ({ ...prev, dueDate: addDate }));
