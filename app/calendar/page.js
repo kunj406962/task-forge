@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import { format } from 'date-fns';
 import './calendar.css'; //Default calendar comes in white, CSS is used to adapt it with the black bg
-import { db, auth } from '../_utils/firebase';
+import { auth } from '../_utils/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import AddTaskModal from '../components/add-task';
 import TaskDetailsModal from '../components/task-details';
