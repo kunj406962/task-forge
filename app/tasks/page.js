@@ -9,6 +9,7 @@ import AddTaskModal from '../components/add-task';
 import TaskDetailsModal from '../components/task-details';
 import { updateTodo, deleteTodo } from '../_services/to-dos-service';
 import TaskList from '../components/task-list';
+import { getTodosDueOnDate } from '../_services/to-dos-service';
 
 const QuestLog = () => {
   const [selectedTask, setSelectedTask] = useState(null);
@@ -17,8 +18,14 @@ const QuestLog = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [todayStr, setTodayStr] = useState('');
+  const today= new Date();
+  const year = today.getFullYear();
+  const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
+  const day = today.getDate().toString().padStart(2, '0');
 
   useEffect(() => {
+    setTodayStr(`${year}-${month}-${day}`);
     const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
@@ -48,24 +55,29 @@ const toggleComplete = async (e, task) => {
   useEffect(() => {
     if (!user) return;
 
-    setLoading(true);
-    
-    const todosRef = collection(db, "users", user.uid, "todos");
+    const fetchTasks = async () => {
+      setLoading(true);
+      try {
+        console.log("Fetching tasks for date:", todayStr);
+        const todos = await getTodosDueOnDate(user.uid, todayStr);
+        console.log("Fetched tasks:", todos);
+        setTasks(todos);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    const unsubscribeDocs = onSnapshot(todosRef, (snapshot) => {
-      const tasksData = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setTasks(tasksData);
-      setLoading(false);
-    }, (error) => {
-      console.error("Error fetching quest log:", error);
-      setLoading(false);
-    });
+    fetchTasks();
+  }, [user, isModalOpen]);
 
-    return () => unsubscribeDocs();
-  }, [user]);
+  const tasksForChosenDay= async ()=>{
+    await getTodosDueOnDate(user.uid, todayStr).then((todos)=>{
+      setTasks(todos)
+    })
+  }
+  
 
   const priorityRank = {
     urgent: 1,
@@ -89,7 +101,7 @@ const toggleComplete = async (e, task) => {
   });
 
   // Delete from Database
-const handleDelete = async (e, id) => {
+  const handleDelete = async (e, id) => {
     e.stopPropagation();
     if (!user) return;
 
@@ -117,7 +129,8 @@ const handleDelete = async (e, id) => {
       
       {/* Header */}
       <div className="top-section" style={{ height: 'auto', textAlign: 'center', paddingBottom: '10px' }}>
-        <h2 className="font-bold">📜 Quest Log</h2>
+        <h2 className="font-bold text-4xl md:text-6xl text-purple-400 text-center mb-2 tracking-wider drop-shadow-[0_0_20px_rgba(168,85,247,0.8)]">📜 Quest Log</h2>
+        <p className="font-bold text-4xl md:text-xl text-purple-400 text-center mb-10 tracking-wider drop-shadow-[0_0_20px_rgba(168,85,247,0.8)]">Date: {today.toDateString()}</p>
         
         {/* Add Task */}
         <button 
@@ -182,7 +195,7 @@ const handleDelete = async (e, id) => {
 
     {/* Modals */}
     <TaskDetailsModal task={selectedTask} onClose={() => setSelectedTask(null)} />
-    <AddTaskModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    <AddTaskModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} addDate={todayStr} />
     </div>
   );
 };

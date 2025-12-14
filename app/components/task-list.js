@@ -49,7 +49,7 @@ const TaskList = ({ tasks, onToggleComplete, onDelete, onSelect, sortBy }) => {
                 />
 
                 <span className="task-time" style={{background: '#444'}}>
-                  {task.dueDate || 'No Date'}
+                  {task.dueDate || 'No Date'} Due:{task.dueTime || 'No Time'}
                 </span>
                 
                 <span className={`task-title ${task.completed ? 'line-through text-gray-500' : ''}`}>

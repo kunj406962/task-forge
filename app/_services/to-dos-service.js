@@ -1,5 +1,5 @@
 import { db } from "../_utils/firebase";
-import { doc, collection, getDocs, addDoc, query, updateDoc, deleteDoc, serverTimestamp } from "firebase/firestore";
+import { doc, collection, getDocs, addDoc, query, updateDoc, deleteDoc, serverTimestamp, where, Timestamp } from "firebase/firestore";
 
 export const getToDos = async (userId) => {
     try{
@@ -53,4 +53,28 @@ export const deleteTodo = async (userId, todoId) => {
     }catch(error){
         console.error("Error deleting to-do: ", error)
     }
+};
+
+export const getTodosDueOnDate = async (userId, targetDate) => {
+  try {
+    const todosRef = collection(db, 'users', userId, 'todos');
+    
+    // Query for todos with dueDate equal to targetDate
+    const q = query(
+      todosRef,
+      where('dueDate', '==', targetDate),
+      where('completed', '==', false) // Only get incomplete ones
+    );
+    
+    const snapshot = await getDocs(q);
+    
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    
+  } catch (error) {
+    console.error("Error getting todos for date:", error);
+    return [];
+  }
 };

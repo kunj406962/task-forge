@@ -37,16 +37,3 @@ export default function Page(){
         </div>
     )
 }
-
- const handleAdd= async (todoData)=>{
-        await addTodo (user.uid, {
-            title: 'Buy groceries',
-            priority: 'important',
-            category: 'shopping',
-            completed: false,
-            description: "30 minute run in the park",
-            dueDate: "2025-12-12",
-            dueTime: "10:00"
-        });
-        await fetchData();
-    }

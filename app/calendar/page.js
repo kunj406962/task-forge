@@ -5,12 +5,12 @@ import Calendar from 'react-calendar';
 import { format } from 'date-fns';
 import './calendar.css'; //Default calendar comes in white, CSS is used to adapt it to dark mode
 import { db, auth } from '../_utils/firebase';
-import { collection, onSnapshot} from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import AddTaskModal from '../components/add-task';
 import TaskDetailsModal from '../components/task-details';
 import { updateTodo, deleteTodo } from '../_services/to-dos-service';
 import TaskList from '../components/task-list';
+import { getTodosDueOnDate } from '../_services/to-dos-service';
 
 const CalendarPage = () => {
   const [date, setDate] = useState(new Date()); 
@@ -19,6 +19,12 @@ const CalendarPage = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed
+  const day = date.getDate().toString().padStart(2, '0');
+  const dateStr = `${year}-${month}-${day}`;
+
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
@@ -51,32 +57,20 @@ const toggleComplete = async (e, task) => {
     if (!user) return;
 
     setLoading(true);
-
-    const todosRef = collection(db, "users", user.uid, "todos");
     
-    const unsubscribeDocs = onSnapshot(todosRef, (snapshot) => {
-      const tasksData = snapshot.docs.map(doc => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          ...data,
-          createdAt: data.createdAt?.toDate(), 
-          updatedAt: data.updatedAt?.toDate()
-        };
-      });
-      setTasks(tasksData);
-      setLoading(false);
-    }, (error) => {
-      console.error("Error fetching quests:", error);
-      setLoading(false);
-    });
+    const tasksData= tasksForChosenDay()
+    
+    setTasks(tasksData)
 
-    return () => unsubscribeDocs();
-  }, [user]);
+    setLoading(false);
+  }, [date, user, isModalOpen]);
 
-  const selectedDateStr = format(date, 'yyyy-MM-dd');
-  const tasksForDay = tasks.filter(task => task.dueDate === selectedDateStr);
-
+  const tasksForChosenDay= async ()=>{
+    await getTodosDueOnDate(user.uid, dateStr).then((todos)=>{
+      setTasks(todos)
+    })
+  }
+  
   // Delete from Databsase
 const handleDelete = async (e, id) => {
     e.stopPropagation();
@@ -104,7 +98,7 @@ const handleDelete = async (e, id) => {
     <div className="calendar-container">
       {/* Calendar */}
       <div className="top-section">
-        <h2 className="font-bold text-center">📆 Adventure Map</h2>
+        <h2 className="font-bold text-4xl md:text-6xl text-purple-400 text-center mb-10 tracking-wider drop-shadow-[0_0_20px_rgba(168,85,247,0.8)]">📆 Adventure Map</h2>
         <Calendar 
           onChange={setDate} 
           value={date} 
@@ -120,10 +114,10 @@ const handleDelete = async (e, id) => {
                 <p className="loading-state">Summoning quests from your archives...</p>
             ) : !user ? (
                 <p className="empty-state">Please log in to view your Adventure Map.</p>
-            ) : tasksForDay.length > 0 ? (
+            ) : tasks.length > 0 ? (
                 
                 <TaskList 
-                tasks={tasksForDay} 
+                tasks={tasks} 
                 onToggleComplete={toggleComplete}
                 onDelete={handleDelete}
                 onSelect={setSelectedTask}
@@ -143,9 +137,9 @@ const handleDelete = async (e, id) => {
         </button>
 
 
-    {/* Modals */}
-    <TaskDetailsModal task={selectedTask} onClose={() => setSelectedTask(null)} />
-    <AddTaskModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {/* Modals */}
+      <TaskDetailsModal task={selectedTask} onClose={() => setSelectedTask(null)} />
+      <AddTaskModal isOpen={isModalOpen} addDate={dateStr} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };

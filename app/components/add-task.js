@@ -5,7 +5,7 @@ import { db, auth } from '../_utils/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { addTodo } from '../_services/to-dos-service';
 
-const AddTaskModal = ({ isOpen, onClose }) => {
+const AddTaskModal = ({ isOpen, onClose, addDate }) => {
   const [loading, setLoading] = useState(false);
   
   // Form State
@@ -34,12 +34,13 @@ const AddTaskModal = ({ isOpen, onClose }) => {
 
     setLoading(true);
 
-try {
+    try {
+      console.log("Adding quest with data:", formData);
       await addTodo(auth.currentUser.uid, {
         title: formData.title,
         priority: formData.priority,
         category: formData.category,
-        dueDate: formData.dueDate,
+        dueDate: addDate,
         dueTime: formData.dueTime,
         description: formData.description,
         completed: false,
@@ -49,7 +50,7 @@ try {
         title: '',
         priority: 'normal',
         category: 'personal',
-        dueDate: '',
+        dueDate: addDate,
         dueTime: '',
         description: ''
       });
@@ -106,7 +107,7 @@ try {
               <label className="block mb-1 text-sm text-gray-400">Priority</label>
               <select 
                 name="priority" 
-                value={formData.priority} 
+                value={formData.priority||"normal"} 
                 onChange={handleChange}
                 className="w-full p-2.5 bg-[#222] border border-[#444] rounded-md text-white focus:outline-none focus:border-[#d946ef]"
               >
@@ -122,7 +123,7 @@ try {
               <label className="block mb-1 text-sm text-gray-400">Category</label>
               <select 
                 name="category" 
-                value={formData.category} 
+                value={formData.category||"personal"} 
                 onChange={handleChange}
                 className="w-full p-2.5 bg-[#222] border border-[#444] rounded-md text-white focus:outline-none focus:border-[#d946ef]"
               >
@@ -139,13 +140,7 @@ try {
           <div className="flex flex-col md:flex-row gap-4 mb-4">
             <div className="flex-1">
               <label className="block mb-1 text-sm text-gray-400">Due Date</label>
-              <input 
-                type="date" 
-                name="dueDate" 
-                value={formData.dueDate} 
-                onChange={handleChange} 
-                className="w-full p-2.5 bg-[#222] border border-[#444] rounded-md text-white focus:outline-none focus:border-[#d946ef]"
-              />
+              <p className="w-full p-2.5 bg-[#222] border border-[#444] rounded-md text-white">{addDate}</p>
             </div>
             <div className="flex-1">
               <label className="block mb-1 text-sm text-gray-400">Time</label>
