@@ -8,10 +8,8 @@ import { db, auth } from '../_utils/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import AddTaskModal from '../components/add-task';
 import TaskDetailsModal from '../components/task-details';
-import { updateTodo, deleteTodo } from '../_services/to-dos-service';
+import { updateTodo, deleteTodo, getTodosDueOnDate } from '../_services/to-dos-service';
 import TaskList from '../components/task-list';
-import { getTodosDueOnDate } from '../_services/to-dos-service';
-
 const CalendarPage = () => {
   const [date, setDate] = useState(new Date()); 
   const [selectedTask, setSelectedTask] = useState(null);
@@ -47,6 +45,11 @@ const toggleComplete = async (e, task) => {
       await updateTodo(user.uid, task.id, {
         completed: !task.completed
       });
+      setTasks((prevTasks) =>
+        prevTasks.map((t) =>
+          t.id === task.id ? { ...t, completed: !t.completed } : t
+        )
+      );
     } catch (error) {
       console.error("Error updating quest:", error);
     }
@@ -79,6 +82,7 @@ const handleDelete = async (e, id) => {
     try {
       await deleteTodo(user.uid, id);
       console.log("Quest removed from log.");
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     } catch (error) {
       console.error("Error deleting quest:", error);
       alert("Failed to delete.");

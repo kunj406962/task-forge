@@ -62,8 +62,7 @@ export const getTodosDueOnDate = async (userId, targetDate) => {
     // Query for todos with dueDate equal to targetDate
     const q = query(
       todosRef,
-      where('dueDate', '==', targetDate),
-      where('completed', '==', false) // Only get incomplete ones
+      where('dueDate', '==', targetDate)
     );
     
     const snapshot = await getDocs(q);

@@ -10,6 +10,7 @@ import TaskDetailsModal from '../components/task-details';
 import { updateTodo, deleteTodo } from '../_services/to-dos-service';
 import TaskList from '../components/task-list';
 import { getTodosDueOnDate } from '../_services/to-dos-service';
+import { set } from 'date-fns';
 
 const QuestLog = () => {
   const [selectedTask, setSelectedTask] = useState(null);
@@ -38,7 +39,7 @@ const QuestLog = () => {
     return () => unsubscribeAuth();
   }, []);
 
-const toggleComplete = async (e, task) => {
+  const toggleComplete = async (e, task) => {
     e.stopPropagation();
     if (!user) return;
 
@@ -46,6 +47,12 @@ const toggleComplete = async (e, task) => {
       await updateTodo(user.uid, task.id, {
         completed: !task.completed
       });
+
+      setTasks((prevTasks) =>
+        prevTasks.map((t) =>
+          t.id === task.id ? { ...t, completed: !t.completed } : t
+        )
+      );
     } catch (error) {
       console.error("Error updating quest:", error);
     }
@@ -71,12 +78,6 @@ const toggleComplete = async (e, task) => {
 
     fetchTasks();
   }, [user, isModalOpen]);
-
-  const tasksForChosenDay= async ()=>{
-    await getTodosDueOnDate(user.uid, todayStr).then((todos)=>{
-      setTasks(todos)
-    })
-  }
   
 
   const priorityRank = {
@@ -109,6 +110,7 @@ const toggleComplete = async (e, task) => {
       // Use the service function!
       await deleteTodo(user.uid, id);
       console.log("Quest removed from log.");
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     } catch (error) {
       console.error("Error deleting quest:", error);
       alert("Failed to delete.");
@@ -173,7 +175,7 @@ const toggleComplete = async (e, task) => {
       </div>
 
       {/* List Sorted Tasks */}
-<div className="bottom-section">
+      <div className="bottom-section">
         {loading ? (
             <p className="loading-state" style={{textAlign:'center', marginTop: '20px', color: '#888'}}>
               Reading quest scrolls...
