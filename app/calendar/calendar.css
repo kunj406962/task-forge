@@ -1,0 +1,206 @@
+/* General Page Layout */
+.calendar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+  color: white;
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Calendar */
+.react-calendar {
+  width: 100%;
+  background-color: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 2em;
+  padding: 10px;
+}
+
+.react-calendar__navigation button {
+  color: #fff;
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.react-calendar__navigation button:hover {
+  color: #d946ef;
+}
+
+.react-calendar__month-view__days__day {
+  color: #ccc;
+}
+
+/* Highlight selected day */
+.react-calendar__tile--active {
+  background: #9333ea !important;
+  color: white !important;
+  border-radius: 8px;
+}
+
+.react-calendar__tile:hover {
+  background-color: #333;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Task List --- */
+.bottom-section h3 {
+  margin-bottom: 15px;
+  color: #d946ef;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task-item {
+  background-color: #222;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #333;
+  transition: transform 0.2s, border-color 0.2s;
+  cursor: pointer;
+}
+
+.task-item:hover {
+  transform: translateX(5px);
+  border-color: #d946ef;
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: transform 0.2s;
+}
+
+.delete-btn:hover {
+  transform: scale(1.2);
+}
+
+.empty-state {
+  color: #666;
+  font-style: italic;
+}
+
+/* Modal View */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #1a1a1a;
+  padding: 30px;
+  border-radius: 12px;
+  width: 400px;
+  border: 2px solid #9333ea;
+  box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  color: #fff;
+}
+
+.task-desc {
+  color: #ccc;
+  line-height: 1.5;
+  margin: 20px 0;
+}
+
+.close-btn {
+  background-color: #9333ea;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  float: right;
+}
+
+.close-btn:hover {
+  background-color: #7e22ce;
+}
+
+/* Task List Item Fixes */
+.task-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.task-time {
+  font-family: monospace;
+  background: #333;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #d946ef;
+  font-size: 0.9rem;
+}
+
+/* Modal Specifics */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.task-category-badge {
+  background: #9333ea;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.modal-meta p {
+  margin: 5px 0;
+  color: #ccc;
+}
+
+/* Fix the spacing of the calendar arrows */
+.react-calendar__navigation button {
+  min-width: 44px;
+  background: none;
+  font-size: 1.2rem;
+  margin: 0 5px;
+  border-radius: 8px;
+}
+
+.react-calendar__navigation__label {
+  font-weight: bold;
+  font-size: 1.1rem;
+  flex-grow: 0 !important;
+  margin: 0 10px;
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  background-color: #333;
+  color: #d946ef;
+}
