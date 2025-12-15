@@ -40,8 +40,13 @@ export default function Page() {
         }
         
         const now = new Date();
-        const currentDateStr = now.toISOString().split('T')[0]; // YYYY-MM-DD
-        const currentTimeStr = now.toTimeString().slice(0, 5); // HH:MM
+        const year = now.getFullYear();
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const day = now.getDate().toString().padStart(2, '0');
+        const currentDateStr = `${year}-${month}-${day}` // YYYY-MM-DD
+        const hours=now.getHours().toString().padStart(2, '0');
+        const minutes=now.getMinutes().toString().padStart(2, '0');
+        const currentTimeStr = `${hours}:${minutes}` // HH:MM
         
         const overdueTasks = taskList.filter(task => {
             // If task is already completed, it's not overdue
